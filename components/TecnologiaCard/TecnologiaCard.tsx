@@ -13,15 +13,15 @@ export default function TecnologiaCard({ title, img }: TecnologiaCardProps) {
 
     return (
         <>
-            <article className=" h-[100] bg-purple-400 rounded-xl p-3 m-2 flex justify-center items-center">
+            <article className=" h-[100] w-[150] bg-purple-400 rounded-xl p-3 m-2 flex flex-col justify-center items-center">
                 <h3 >{title}</h3>
                 <Image
                     src={`/tecnologias/${img}`}
                     alt={`Logo de ${title}`}
                     width={50}
                     height={50}
-                    className="m-3 "
                  />
+                 
 
         </article>
 
