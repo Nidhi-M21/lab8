@@ -7,7 +7,7 @@ import TecnologiaDetailsCard from '@/components/TecnologiaDetailsCard/Tecnologia
 export default function TecnologiaPage(){
     const params= useParams();
     const id= Number(params.tecnologia)
-    console.log(tecnologias[id]);
+
 
     return <>
     <section>

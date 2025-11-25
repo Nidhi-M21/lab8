@@ -1,5 +1,5 @@
-
-export default function page(){
+import Caracteristica from "@/components/Caracteristica/Caracteristica"
+export default function page() {
 
     const caracteristicas = [
         'JSX, sintaxe que mistura HTML e JS.',
@@ -11,16 +11,17 @@ export default function page(){
         'TypeScript Seguro e Escalável.',
         'Comunidade Ativa e Popularidade.'
     ]
-
-
-
-    return(
+  return (
         <>
-        <h2>Características do React e Next.js</h2>
-        {caracteristicas.map((caracteristica,i)=>{
-            return <li key={i}>{caracteristica}</li>
-        })}
+            <h2>Características do React e Next.js</h2>
 
+            {caracteristicas.map((caracteristica, i) => (
+                <Caracteristica
+                    key={i}
+                    caracteristica={caracteristica}
+                    
+                />
+            ))}
         </>
     )
-}
+}// o que estav ano lab 8: <li key={i}>{caracteristica}</li>
