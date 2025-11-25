@@ -16,7 +16,6 @@ export default function TecnologiaPage(){
             img={tecnologias[id].image}
             description={tecnologias[id].description}
             rating={tecnologias[id].rating}
-            
             />
     </section>
     

@@ -18,10 +18,9 @@ export default function page() {
             {caracteristicas.map((caracteristica, i) => (
                 <Caracteristica
                     key={i}
-                    caracteristica={caracteristica}
-                    
+                    caracteristica={caracteristica} 
                 />
             ))}
         </>
     )
-}// o que estav ano lab 8: <li key={i}>{caracteristica}</li>
+}
