@@ -20,7 +20,6 @@ export default function TecnologiaDetailsCard({ title, description, rating }: Te
                 <p>{description}</p>
                 <p>{rating}</p>
                 <Link href="/tecnologias" className="font-bold bg-yellow-700 p-2 rounded-xl">Voltar</Link>
-
             </article>
 
         </>
