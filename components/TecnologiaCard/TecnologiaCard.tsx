@@ -9,7 +9,11 @@ interface TecnologiaCardProps {
 
 
 
+
+
 export default function TecnologiaCard({ title, img }: TecnologiaCardProps) {
+
+    const
 
     return (
         <>
