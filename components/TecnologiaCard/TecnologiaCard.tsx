@@ -6,11 +6,6 @@ interface TecnologiaCardProps {
     img: string
 }
 
-
-
-
-
-
 export default function TecnologiaCard({ title, img }: TecnologiaCardProps) {
 
     const
