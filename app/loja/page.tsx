@@ -2,6 +2,8 @@
 import { Produto } from "@/models/interfaces"
 import useSWR from "swr";
 import Image from 'next/image'
+import { Button } from "@/components/ui/button"
+import ProductCard from "@/components/ProductCard/ProductCard"
 
 const fetcher = async (url: string) => {
     const res = await fetch(url);
@@ -32,7 +34,30 @@ export default function page() {
     return (
 
         <>
-            <main className=" grid grid-cols-3 ">
+            <main className=" grid grid-cols-3 gap-3">
+          
+                
+                {data.map((product, i) => (
+
+                 <ProductCard
+                 title={product.title}
+                 image={product.image}
+                 />
+
+
+                ))}
+
+            </main>
+
+
+        </>
+    )
+}
+
+/**
+   <main className=" grid grid-cols-3 ">
+          
+                
                 {data.map((product, i) => (
 
                     <article
@@ -49,6 +74,8 @@ export default function page() {
                         />
                         <p>{product.description}</p>
                         <p> Rate: {product.rating.rate}</p>
+                        <Button>Click me</Button>
+                        
 
                     </article>
 
@@ -56,9 +83,4 @@ export default function page() {
 
                 ))}
 
-            </main>
-
-
-        </>
-    )
-}
+ */

@@ -2,6 +2,9 @@
 import { Produto } from "@/models/interfaces"
 import useSWR from "swr";
 import Image from 'next/image'
+import { Button } from "@/components/ui/button"
+
+
 
 
 const fetcher = async (url: string) => {
@@ -32,21 +35,22 @@ export default function page() {
     if (!data) {
         return <p>Não há dados</p>
     }
-
+console.log(JSON.stringify(data))
     return (
         <>
+        <Button className="bg-blue-500">Click me</Button>
             {data.map(produto => (
                 <article
                 key={produto.id}
-                
                 >
                     <h2>{produto.title}</h2>
-                    <Image
+                    {/* <Image
                         src={produto.image}
                         width={100}
                         height={100}
                         alt={produto.title}
                     />
+                     */} 
                 </article>
 
 
