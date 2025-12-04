@@ -4,6 +4,7 @@ import useSWR from "swr";
 import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import ProductCard from "@/components/ProductCard/ProductCard"
+import { useState } from "react";
 
 const fetcher = async (url: string) => {
     const res = await fetch(url);
@@ -31,18 +32,30 @@ export default function page() {
     if (!data) {
         return <p>Não há dados</p>
     }
+
+    const [filteredData,setFilteredData]= useState<Produto[]>([])
+    const [serch,setSeach]= useState("")
+
     return (
+        
 
         <>
+            <section>
+                <input type="text" 
+                onChange={(e)=>set}/>
+
+
+            </section>
             <main className=" grid grid-cols-3 gap-3">
-          
-                
+
+
+
                 {data.map((product, i) => (
 
-                 <ProductCard
-                 title={product.title}
-                 image={product.image}
-                 />
+                    <ProductCard
+                        title={product.title}
+                        image={product.image}
+                    />
 
 
                 ))}

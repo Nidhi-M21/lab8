@@ -9,6 +9,7 @@ import { Produto } from "@/models/interfaces"
 import { url } from "inspector";
 import Link from "next/link";
 import { parseAppSegmentConfig } from "next/dist/build/segment-config/app/app-segment-config";
+import { useEffect, useState } from "react";
 
 const fetcher = async (url: string) => {
     const res = await fetch(url);
@@ -22,18 +23,33 @@ const fetcher = async (url: string) => {
 
 
 export default function page(){
-     //FETCH DE DADOS
+
+
+    // 
+    // A. Estados 
+    const [produtosFiltrados, setProdutosFiltrados]= useState<Produto[]>()
       
 
+     // 
+     // B. FETCH DE DADOS
     const url = "https://deisishop.pythonanywhere.com/products"
-      const params= useParams();
+    const { data, error, isLoading } = useSWR<Produto[]>(url, fetcher)
+
+    const params= useParams();
     const id= Number(params.categoria)
     //const categoria =params.categoria
     const categoria = decodeURIComponent(params.categoria as string)
 
+    //
+    // C. Efeitos
+    useEffect(()=>{
+        if(!data) return
 
-    const { data, error, isLoading } = useSWR<Produto[]>(url, fetcher)
-    //RENDERIZAÇÃO
+        setProdutosFiltrados( data.filter((prodct)=>prodct.category.toLowerCase()===categoria) )
+
+    }, [data])
+
+    // D. RENDERIZAÇÃO
     if (error) {
         return <p>{error.message}</p>
     }
@@ -43,9 +59,8 @@ export default function page(){
     if (!data) {
         return <p>Não há dados</p>
     }
-
-    const produtosFiltrados=data.filter((prodct: any)=>prodct.category.toLowerCase()===categoria);
-
+    if (!produtosFiltrados)
+         return <p>Não há produtos</p>   
 
 
     return(

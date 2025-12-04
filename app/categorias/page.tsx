@@ -34,7 +34,7 @@ export default function page(){
     return(
 
         <>
-        <h2 className="text-black">Cracteristicas</h2>
+        <h2 className="text-black">Categorias</h2>
      
         {data.map((catg,i)=>(
              <Link  key={i} href={`/categorias/${i}`}>
