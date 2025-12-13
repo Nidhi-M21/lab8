@@ -17,6 +17,9 @@ const fetcher = async (url: string) => {
 
 
 export default function page() {
+    
+    const [filteredData,setFilteredData]= useState<Produto[]>([])
+    const [serch,setSeach]= useState("")
 
     //FETCH DE DADOS
     const url = "https://deisishop.pythonanywhere.com/products"
@@ -33,22 +36,13 @@ export default function page() {
         return <p>Não há dados</p>
     }
 
-    const [filteredData,setFilteredData]= useState<Produto[]>([])
-    const [serch,setSeach]= useState("")
 
     return (
         
 
         <>
-            <section>
-                <input type="text" 
-                onChange={(e)=>set}/>
-
-
-            </section>
+         
             <main className=" grid grid-cols-3 gap-3">
-
-
 
                 {data.map((product, i) => (
 

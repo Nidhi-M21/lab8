@@ -33,6 +33,7 @@ export default function RootLayout({
         <header className="flex flex-col items-center">
           <h1>React & Next.js</h1>
           <nav>
+            {/*  
             <Link href="/">Intro </Link>
             <Link href="/sobre">Sobre  </Link>
             <Link href="/caracteristicas">Caracteristicas  </Link>
@@ -40,8 +41,10 @@ export default function RootLayout({
             <Link href="/projetos">Projetos</Link>
             <Link href="/contador"> Contador</Link>
             <Link href="/input"> Input</Link>
-             <Link href="/loja"> Loja DEISI </Link>
-             <Link href="/categorias"> Categorias</Link>
+            */}
+             <Link href="/loja" className="hover:underline m-3"> Loja DEISI </Link>
+             <Link href="/categorias" className="hover:underline m-3"> Categorias</Link>
+              <Link href="/produtos"className="hover:underline m-3"> Produtos</Link>
           </nav>
         </header>
         
