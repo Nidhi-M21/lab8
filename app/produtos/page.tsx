@@ -26,53 +26,84 @@ export default function page() {
 
     const { data, error, isLoading } = useSWR<Produto[]>(url, fetcher)
 
-    const[search,setSerach]=useState("")
-    const[select,setSelect]= useState("")
-    const[filteredData,setFilteredData]= useState<Produto[]>([])
-    const[cart,setCart]=useState<Produto[]>([])
+    const [search, setSerach] = useState("")
+    const [select, setSelect] = useState("")
+    const [filteredData, setFilteredData] = useState<Produto[]>([])
+    const [cart, setCart] = useState<Produto[]>([])
+    const [estudanteDEISI, setEstudanteDEISI] = useState(false)
+    const [cupom, setCupom] = useState("")
+    const [respostaCompra, setRespostaCompra] = useState<string>("")
+    const totalPreco = cart.reduce((acc, p) => acc + Number(p.price), 0)
 
-    useEffect(()=>{
 
-        const cartData= localStorage.getItem("cart")
-        if(cartData){
+    useEffect(() => {
+
+        const cartData = localStorage.getItem("cart")
+        if (cartData) {
             setCart(JSON.parse(cartData))
         }
 
-    },[])
+    }, [])
 
-        useEffect(()=>{
-            if (!data) return
-        const produtosFiltardos= data.filter(produto=>produto.title.toLowerCase().includes(search.toLowerCase()))
+    useEffect(() => {
+        if (!data) return
+        const produtosFiltardos = data.filter(produto => produto.title.toLowerCase().includes(search.toLowerCase()))
         setFilteredData(produtosFiltardos)
-    },[search,data])
+    }, [search, data])
 
 
-    useEffect(()=>{
-            let produtosOrdenados=selectOrdem(select)
+    useEffect(() => {
+        let produtosOrdenados = selectOrdem(select)
         setFilteredData(produtosOrdenados)
-    },[select])
+    }, [select])
 
-    function selectOrdem(ordem:string){
+    function selectOrdem(ordem: string) {
 
-        const produtosOrdenados=[...filteredData];
+        const produtosOrdenados = [...filteredData];
 
-        if(ordem==='nome'){
-            produtosOrdenados.sort((a,b)=>a.title.localeCompare(b.title))
-        }else if(ordem==='precoCres'){
-             produtosOrdenados.sort((a,b)=>a.price-b.price)
-        }else if(ordem==='precoDesc'){
-             produtosOrdenados.sort((a,b)=>b.price-a.price)
+        if (ordem === 'nome') {
+            produtosOrdenados.sort((a, b) => a.title.localeCompare(b.title))
+        } else if (ordem === 'precoCres') {
+            produtosOrdenados.sort((a, b) => a.price - b.price)
+        } else if (ordem === 'precoDesc') {
+            produtosOrdenados.sort((a, b) => b.price - a.price)
         }
 
         return produtosOrdenados
 
     }
 
-    function adicionarCarrinho(produto:Produto){
-        const novoCart=[...cart,produto]
-        setCart(novoCart)
-        localStorage.setItem("cart",JSON.stringify(novoCart))
+    const buy = () => {
+  fetch("https://deisishop.pythonanywhere.com/buy", {
+    method: "POST",
+    body: JSON.stringify({
+      products: props.cart.map(product => product.id),
+      name: "",
+      student: false,
+      coupon: ""
+    }),
+    headers: {
+      "Content-Type": "application/json"
     }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return response.json();
+  })
+  .then(() => {
+    setCart([]);
+     setRespostaCompra("Compra realizada com sucesso! " )
+  })
+  .catch(() => {
+    console.log("error ao comprar");
+        setRespostaCompra("Erro ao comprar")
+  });
+};
+
+
+
 
     //RENDERIZAÇÃO
     if (error) {
@@ -86,55 +117,88 @@ export default function page() {
         return <p>Não há dados</p>
     }
     console.log(JSON.stringify(data))
-    
+
 
 
 
     return (
         <>
 
-     <main>
-           <div className="flex justify-center items-center ">
-            <section className="m-3 p-2">
-            <label className="m-2">Pesquise:</label>
-            <input 
-             type="text" 
-             placeholder="pesquise o item" 
-             className="bg-blue-500  h-[30px] m-2 rounded-md" 
-             onChange={(e)=>setSerach(e.target.value)}
-            />
+            <main>
+                <div className="flex justify-center items-center ">
+                    <section className="m-3 p-2">
+                        <label className="m-2">Pesquise:</label>
+                        <input
+                            type="text"
+                            placeholder="pesquise o item"
+                            className="bg-blue-500  h-[30px] m-2 rounded-md"
+                            onChange={(e) => setSerach(e.target.value)}
+                        />
 
-        </section>
+                    </section>
 
-        <section>
-            <select name="" id=""
-            onChange={(e)=>setSelect(e.target.value)}
-            className="bg-purple-300 p-1 rounded-md"
-            >
+                    <section>
+                        <select name="" id=""
+                            onChange={(e) => setSelect(e.target.value)}
+                            className="bg-purple-300 p-1 rounded-md"
+                        >
 
-            <option value="nome">Nome</option>
-            <option value="precoCres">Preço Crescente</option>
-            <option value="precoDesc">Preço Decrescente</option>
-            </select>
-
-
-        </section>
-           </div>
-
-        <section className=" grid grid-cols-3 gap-10">
-                {filteredData.map((produto,i) =>
-            
-            
-                 <ProdutoCard
-                    produto={produto}
-                />
-            )}
+                            <option value="nome">Nome</option>
+                            <option value="precoCres">Preço Crescente</option>
+                            <option value="precoDesc">Preço Decrescente</option>
+                        </select>
 
 
-        </section>
+                    </section>
+                </div>
+
+                <section className=" grid grid-cols-3 gap-10">
+                    {filteredData.map((produto, i) =>
 
 
-     </main>
+                        <ProdutoCard
+                            produto={produto}
+                        />
+                    )}
+
+
+                </section>
+
+                <h2 className="text-xl font-bold mb-4">Carrinho</h2>
+                {cart.length === 0 && <p>O carrinho está vazio</p>}
+                <section className="grid grid-cols-3 gap-4">
+                    {cart.map(produto => (
+                        <ProdutoCard
+                            key={produto.id}
+                            produto={produto}
+
+                        />
+                    ))}
+                </section>
+                <p className="mt-4 font-bold">Total: {totalPreco.toFixed(2)} €</p>
+
+                <section>
+                    <button className="bg-green-600 rounded-xl m-2 p-2" onClick={buy}>COMPRAR</button>
+                    <label > Estudante DEISI </label>
+                        <input
+                            type="checkbox"
+                            checked={estudanteDEISI}
+                            onChange={e => setEstudanteDEISI(e.target.checked)}
+                        />
+                     
+                  
+                    <label>Cupom de desconto:  </label>
+                        <input
+                            type="text"
+                            value={cupom}
+                            onChange={e => setCupom(e.target.value)}
+                            className="bg-blue-300 "
+                            placeholder="escreva"
+                        />
+                   <p className="mt-2 text-green-700 font-bold">{respostaCompra}</p>
+                </section>
+
+            </main>
 
 
         </>
