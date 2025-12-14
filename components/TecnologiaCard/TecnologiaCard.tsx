@@ -8,10 +8,16 @@ interface TecnologiaCardProps {
 
 export default function TecnologiaCard({ title, img }: TecnologiaCardProps) {
 
-    const
-
     return (
         <>
+        <p>ola</p>
+        </>
+    )
+
+}
+
+    /*
+       
             <article className=" h-[100] w-[150] bg-purple-400 rounded-xl p-3 m-2 flex flex-col justify-center items-center">
                 <h3 >{title}</h3>
                 <Image
@@ -23,10 +29,4 @@ export default function TecnologiaCard({ title, img }: TecnologiaCardProps) {
                  
 
         </article>
-
-        </>
-
-
-    )
-
-}
+         */
