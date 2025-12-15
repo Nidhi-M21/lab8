@@ -165,7 +165,7 @@ export default function page() {
                 </section>
 
                 <h2 className="text-xl font-bold mb-4">Carrinho</h2>
-                {cart.length === 0 && <p>O carrinho está vazio</p>}
+                
                 <section className="grid grid-cols-3 gap-4">
                     {cart.map(produto => (
                         <ProdutoCard
